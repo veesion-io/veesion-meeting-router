@@ -208,12 +208,12 @@
 
   function _normaliseHubSpot(values) {
     return {
-      country:   values['country']           || null,
+      country:   values['where_from']        || null,
       zip:       values['zip']               || null,
       storeType: values['retail_store_type'] || null,
       jobRole:   values['job_role']          || null,
-      cameras:   values['number_of_cameras'] || null,
-      stores:    parseInt(values['number_of_stores'], 10) || 0,
+      cameras:   values['nombre_de_cameras_dans_le_magasin'] || null,
+      stores:    parseInt(values['number_of_store_s_'], 10) || 0,
       timezone:  values['hs_timezone']       || _getBrowserTimezone()
     };
   }
