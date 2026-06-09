@@ -253,7 +253,7 @@
    * prefixed (e.g. "0-1/country"), so the prefix is stripped before the values
    * are passed to the shared _normaliseHubSpot mapping.
    */
-  function initHubSpotV4(flow) {
+  function initHubSpot(flow) {
     global.addEventListener('hs-form-event:on-submission:success', function (event) {
       var FormsV4 = global.HubSpotFormsV4 || global.HubspotFormsV4;
       var form = FormsV4 && FormsV4.getFormFromEvent(event);
@@ -285,42 +285,7 @@
       });
     });
   }
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  // ADAPTER — HUBSPOT FORMS
-  // ═══════════════════════════════════════════════════════════════════════════
-
-  /**
-   * Usage (after the HubSpot embed script):
-   *   MeetingRouter.initHubSpot('paid-acquisition');
-   */
-  function initHubSpot(flow) {
-    global.addEventListener('message', function (event) {
-      if (!event.data || event.data.type !== 'hsFormCallback') return;
-      if (event.data.eventName !== 'onFormSubmitted') return;
-
-      var formData = event.data.data && event.data.data.submissionValues;
-      if (!formData) return;
-
-      var values = {};
-      if (Array.isArray(formData)) {
-        formData.forEach(function (f) { values[f.name] = f.value; });
-      } else {
-        values = formData;
-      }
-
-      var prospect = _normaliseHubSpot(values);
-      var route    = findRoute(prospect, flow);
-
-      if (route) {
-        console.log('[MeetingRouter] Matched:', route.name);
-        global.location.href = route.link;
-      } else {
-        console.warn('[MeetingRouter] No matching route for:', prospect);
-      }
-    });
-  }
-
+  
   // ═══════════════════════════════════════════════════════════════════════════
   // ADAPTER — TYPEFORM
   // ═══════════════════════════════════════════════════════════════════════════
@@ -385,7 +350,6 @@
     var MeetingRouter = {
     findRoute:            findRoute,
     initHubSpot:          initHubSpot,
-    initHubSpotV4:        initHubSpotV4,
     initTypeform:         initTypeform,
     createLovableHandler: createLovableHandler
   };
