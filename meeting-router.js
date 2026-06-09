@@ -381,9 +381,10 @@
   // ═══════════════════════════════════════════════════════════════════════════
   // PUBLIC API
   // ═══════════════════════════════════════════════════════════════════════════
-  var MeetingRouter = {
+    var MeetingRouter = {
     findRoute:            findRoute,
     initHubSpot:          initHubSpot,
+    initHubSpotV4:        initHubSpotV4,
     initTypeform:         initTypeform,
     createLovableHandler: createLovableHandler
   };
