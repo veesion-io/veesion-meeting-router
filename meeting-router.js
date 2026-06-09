@@ -270,7 +270,8 @@
           values[name] = Array.isArray(f.value) ? f.value[0] : f.value;
         });
 
-        var prospect = _normaliseHubSpot(values);                 // ← single source of truth
+        var prospect = _normaliseHubSpot(values);
+        console.log('[MeetingRouter] values keys:', Object.keys(values), '→ prospect:', prospect);
         var route    = findRoute(prospect, flow);
 
         if (route) {
