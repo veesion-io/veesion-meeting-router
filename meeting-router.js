@@ -57,7 +57,7 @@
       countries: ['France', 'Belgium'],
       locationType: 'zip_prefix_exclude', locationValues: ['75', '77', '78', '91', '92', '93', '94', '95'],
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station', 'Convenience store'],
-      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Store Owner'],
+      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Store owner'],
       cameras: ['10-14 cameras', '15 - 34 cameras'],
       minStores: 1
     },
