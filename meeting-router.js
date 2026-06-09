@@ -239,6 +239,52 @@
     return p;
   }
 
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // ADAPTER — HUBSPOT FORMS V4 (native, non-iframe)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  /**
+   * Usage (place once on any page where a V4 form is embedded):
+   *   MeetingRouter.initHubSpotV4('paid-acquisition');
+   *
+   * V4 native forms emit DOM CustomEvents (not postMessage). Submitted values
+   * are read asynchronously from the form instance, and field names arrive
+   * prefixed (e.g. "0-1/country"), so the prefix is stripped before the values
+   * are passed to the shared _normaliseHubSpot mapping.
+   */
+  function initHubSpotV4(flow) {
+    global.addEventListener('hs-form-event:on-submission:success', function (event) {
+      var FormsV4 = global.HubSpotFormsV4 || global.HubspotFormsV4;
+      var form = FormsV4 && FormsV4.getFormFromEvent(event);
+      if (!form || typeof form.getFormFieldValues !== 'function') {
+        console.warn('[MeetingRouter] V4 form instance unavailable.');
+        return;
+      }
+
+      form.getFormFieldValues().then(function (fields) {
+        var values = {};
+        (fields || []).forEach(function (f) {
+          if (!f || !f.name) return;
+          var name = f.name.replace(/^\d+-\d+\//, '');            // strip "0-1/" prefix
+          values[name] = Array.isArray(f.value) ? f.value[0] : f.value;
+        });
+
+        var prospect = _normaliseHubSpot(values);                 // ← single source of truth
+        var route    = findRoute(prospect, flow);
+
+        if (route) {
+          console.log('[MeetingRouter] Matched:', route.name);
+          global.location.href = route.link;
+        } else {
+          console.warn('[MeetingRouter] No matching route for:', prospect);
+        }
+      }).catch(function (err) {
+        console.error('[MeetingRouter] Failed to read V4 field values:', err);
+      });
+    });
+  }
+
   // ═══════════════════════════════════════════════════════════════════════════
   // ADAPTER — HUBSPOT FORMS
   // ═══════════════════════════════════════════════════════════════════════════
