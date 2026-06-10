@@ -175,9 +175,21 @@
     return null;
   }
 
+  // Case- and whitespace-insensitive membership test for label lists, so
+  // "Store Owner" / "Store owner" / " store owner " all match the same route.
+  // Used for free-text picklist labels (countries, store types, job roles,
+  // cameras) — NOT for zip prefixes or store counts.
+  function _includesLoose(list, value) {
+    if (value == null) return false;
+    var needle = String(value).trim().toLowerCase();
+    return list.some(function (item) {
+      return String(item).trim().toLowerCase() === needle;
+    });
+  }
+
   function _matches(route, p) {
     // Countries
-    if (route.countries.length && route.countries.indexOf(p.country) === -1)
+    if (route.countries.length && !_includesLoose(route.countries, p.country))
       return false;
 
     // Location
@@ -195,17 +207,17 @@
 
     // Store type
     if (route.storeTypes.length && p.storeType &&
-        route.storeTypes.indexOf(p.storeType) === -1)
+        !_includesLoose(route.storeTypes, p.storeType))
       return false;
 
     // Job role
     if (route.jobRoles.length && p.jobRole &&
-        route.jobRoles.indexOf(p.jobRole) === -1)
+        !_includesLoose(route.jobRoles, p.jobRole))
       return false;
 
     // Cameras — route specifies allowed picklist values; empty prospect value → no match
     if (route.cameras.length) {
-      if (!p.cameras || route.cameras.indexOf(p.cameras) === -1) return false;
+      if (!p.cameras || !_includesLoose(route.cameras, p.cameras)) return false;
     }
 
     // Min stores
