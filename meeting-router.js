@@ -36,6 +36,12 @@
   // Override per-call with: initHubSpot('paid-acquisition', { container: '#x' })
   var DEFAULT_CONTAINER = '#veesion-meeting';
 
+  // Element(s) removed from the DOM once a route matches — the HubSpot form
+  // frame, so the scheduler replaces the form instead of stacking under it.
+  // Override per-call with { removeSelector: '...' }, or disable with
+  // { removeSelector: null }. Harmless no-op on pages without this element.
+  var DEFAULT_REMOVE_SELECTOR = '.hs-form-frame';
+
   // ═══════════════════════════════════════════════════════════════════════════
   // ROUTE TABLE  ·  auto-generated — do not edit
   // ═══════════════════════════════════════════════════════════════════════════
@@ -258,18 +264,36 @@
   }
 
   /**
-   * Shared "what to do on a match" — embeds the scheduler on every provider.
+   * Remove the HubSpot form frame (or any selector) from the DOM. Called once
+   * a route matches so the scheduler replaces the form. Removes ALL matches;
+   * silently does nothing when the selector is falsy or matches nothing.
+   */
+  function _removeElements(selector) {
+    if (!selector) return;
+    var nodes = global.document.querySelectorAll(selector);
+    for (var i = 0; i < nodes.length; i++) {
+      if (nodes[i] && nodes[i].parentNode) nodes[i].parentNode.removeChild(nodes[i]);
+    }
+  }
+
+  /**
+   * Shared "what to do on a match" — embeds the scheduler on every provider
+   * and removes the form frame from the DOM.
    *
    * @param {object} route    - Matched route
    * @param {object} prospect - Normalised prospect (supplies contact params)
    * @param {object} [options]
-   *        options.container  - CSS selector or element to embed into
-   *                             (defaults to DEFAULT_CONTAINER)
+   *        options.container      - CSS selector or element to embed into
+   *                                 (defaults to DEFAULT_CONTAINER)
+   *        options.removeSelector - element(s) to strip from the DOM on match
+   *                                 (defaults to DEFAULT_REMOVE_SELECTOR;
+   *                                  pass null to keep the form in place)
    */
   function _handleMatch(route, prospect, options) {
     options = options || {};
     var url = _appendContactParams(route.link, prospect);
     _embed(url, options.container);
+    _removeElements('removeSelector' in options ? options.removeSelector : DEFAULT_REMOVE_SELECTOR);
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
