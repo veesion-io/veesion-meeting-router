@@ -3,6 +3,11 @@
  * ─────────────────────────────────────────────────────────────────────────────
  * Auto-generated from the Veesion Routes GSheet.
  * DO NOT EDIT MANUALLY — update the GSheet and re-run the Claude Code skill.
+ *
+ * NOTE: the contact-param + embed logic below lives in the ENGINE/ADAPTERS,
+ * not the route table. If you only edit the generated output it will be wiped
+ * on the next skill run — fold these changes into the generator template.
+ *
  * Generated: 2026-06-02
  * ─────────────────────────────────────────────────────────────────────────────
  *
@@ -16,6 +21,9 @@
  *   job_role            →  job role picklist label
  *   number_of_cameras   →  camera range picklist label (e.g. "10-14 cameras")
  *   number_of_stores    →  number of stores (integer)
+ *   firstname           →  contact first name  (appended to the meeting URL)
+ *   lastname            →  contact last name   (appended to the meeting URL)
+ *   email               →  contact email       (appended to the meeting URL)
  *
  * Routes with link = "TBD" are kept in the table for traceability but are
  * skipped at runtime — the router moves on to the next matching route.
@@ -23,6 +31,10 @@
 
 (function (global) {
   'use strict';
+
+  // Default DOM container the matched meeting scheduler is embedded into.
+  // Override per-call with: initHubSpot('paid-acquisition', { container: '#x' })
+  var DEFAULT_CONTAINER = '#veesion-meeting';
 
   // ═══════════════════════════════════════════════════════════════════════════
   // ROUTE TABLE  ·  auto-generated — do not edit
@@ -157,16 +169,6 @@
     return null;
   }
 
-function _appendContactParams(link, p) {
-  var params = [];
-  if (p.firstName) params.push('firstName=' + encodeURIComponent(p.firstName));
-  if (p.lastName)  params.push('lastName='  + encodeURIComponent(p.lastName));
-  if (p.email)     params.push('email='     + encodeURIComponent(p.email));
-  if (!params.length) return link;
-  var sep = link.indexOf('?') === -1 ? '?' : '&';
-  return link + sep + params.join('&');
-}
-
   function _matches(route, p) {
     // Countries
     if (route.countries.length && route.countries.indexOf(p.country) === -1)
@@ -212,36 +214,94 @@ function _appendContactParams(link, p) {
     try { return Intl.DateTimeFormat().resolvedOptions().timeZone; } catch (e) { return null; }
   }
 
+  // ── Contact-param helper ──────────────────────────────────────────────────────
+  /**
+   * Append firstName / lastName / email to a meeting link as query params.
+   * Values are URL-encoded (emails contain "@", names may contain spaces/accents).
+   * Picks "?" or "&" depending on whether the link already has a query string.
+   */
+  function _appendContactParams(link, p) {
+    var params = [];
+    if (p.firstName) params.push('firstName=' + encodeURIComponent(p.firstName));
+    if (p.lastName)  params.push('lastName='  + encodeURIComponent(p.lastName));
+    if (p.email)     params.push('email='     + encodeURIComponent(p.email));
+    if (!params.length) return link;
+    var sep = link.indexOf('?') === -1 ? '?' : '&';
+    return link + sep + params.join('&');
+  }
+
+  // ── Embed helper ──────────────────────────────────────────────────────────────
+  /**
+   * Render a HubSpot meeting scheduler into a container element instead of
+   * redirecting. Uses HubSpot's MeetingsEmbedCode lib for iframe auto-resize.
+   * The lib only scans for ".meetings-iframe-container" present when it loads,
+   * so we (re)append the script after injecting the container to force a scan.
+   */
+  function _embed(url, container) {
+    var sel = container || DEFAULT_CONTAINER;
+    var el = typeof sel === 'string' ? global.document.querySelector(sel) : sel;
+    if (!el) {
+      console.warn('[MeetingRouter] embed container not found:', sel);
+      return;
+    }
+
+    el.innerHTML = '';  // clear any previous render
+
+    var div = global.document.createElement('div');
+    div.className = 'meetings-iframe-container';
+    div.setAttribute('data-src', url + (url.indexOf('?') === -1 ? '?' : '&') + 'embed=true');
+    el.appendChild(div);
+
+    var s = global.document.createElement('script');
+    s.src = 'https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js';
+    el.appendChild(s);
+  }
+
+  /**
+   * Shared "what to do on a match" — embeds the scheduler on every provider.
+   *
+   * @param {object} route    - Matched route
+   * @param {object} prospect - Normalised prospect (supplies contact params)
+   * @param {object} [options]
+   *        options.container  - CSS selector or element to embed into
+   *                             (defaults to DEFAULT_CONTAINER)
+   */
+  function _handleMatch(route, prospect, options) {
+    options = options || {};
+    var url = _appendContactParams(route.link, prospect);
+    _embed(url, options.container);
+  }
+
   // ═══════════════════════════════════════════════════════════════════════════
   // FIELD NORMALISATION
   // ═══════════════════════════════════════════════════════════════════════════
 
-function _normaliseHubSpot(values) {
-  return {
-    country:   values['where_from']        || null,
-    zip:       values['zip']               || null,
-    storeType: values['retail_store_type'] || null,
-    jobRole:   values['job_role']          || null,
-    cameras:   values['nombre_de_cameras_dans_le_magasin'] || null,
-    stores:    parseInt(values['number_of_store_s_'], 10) || 0,
-    timezone:  values['hs_timezone']       || _getBrowserTimezone(),
-    firstName: values['firstname']         || null,
-    lastName:  values['lastname']          || null,
-    email:     values['email']             || null
-  };
-}
+  function _normaliseHubSpot(values) {
+    return {
+      country:   values['where_from']        || null,
+      zip:       values['zip']               || null,
+      storeType: values['retail_store_type'] || null,
+      jobRole:   values['job_role']          || null,
+      cameras:   values['nombre_de_cameras_dans_le_magasin'] || null,
+      stores:    parseInt(values['number_of_store_s_'], 10) || 0,
+      timezone:  values['hs_timezone']       || _getBrowserTimezone(),
+      firstName: values['firstname']         || null,
+      lastName:  values['lastname']          || null,
+      email:     values['email']             || null
+    };
+  }
 
-var TYPEFORM_FIELD_MAP = {
-  'country':           'country',
-  'zip':               'zip',
-  'retail_store_type': 'storeType',
-  'job_role':          'jobRole',
-  'number_of_cameras': 'cameras',
-  'number_of_stores':  'stores',
-  'first_name':        'firstName',
-  'last_name':         'lastName',
-  'email':             'email'
-};
+  var TYPEFORM_FIELD_MAP = {
+    'country':           'country',
+    'zip':               'zip',
+    'retail_store_type': 'storeType',
+    'job_role':          'jobRole',
+    'number_of_cameras': 'cameras',
+    'number_of_stores':  'stores',
+    'first_name':        'firstName',
+    'last_name':         'lastName',
+    'email':             'email'
+  };
 
   function _normaliseTypeform(answers) {
     var p = { timezone: _getBrowserTimezone() };
@@ -262,14 +322,14 @@ var TYPEFORM_FIELD_MAP = {
 
   /**
    * Usage (place once on any page where a V4 form is embedded):
-   *   MeetingRouter.initHubSpotV4('paid-acquisition');
+   *   MeetingRouter.initHubSpot('paid-acquisition', { container: '#veesion-meeting' });
    *
    * V4 native forms emit DOM CustomEvents (not postMessage). Submitted values
    * are read asynchronously from the form instance, and field names arrive
    * prefixed (e.g. "0-1/country"), so the prefix is stripped before the values
    * are passed to the shared _normaliseHubSpot mapping.
    */
-  function initHubSpot(flow) {
+  function initHubSpot(flow, options) {
     global.addEventListener('hs-form-event:on-submission:success', function (event) {
       var FormsV4 = global.HubSpotFormsV4 || global.HubspotFormsV4;
       var form = FormsV4 && FormsV4.getFormFromEvent(event);
@@ -292,7 +352,7 @@ var TYPEFORM_FIELD_MAP = {
 
         if (route) {
 //          console.log('[MeetingRouter] Matched:', route.name);
-          global.location.href = _appendContactParams(route.link, prospect);
+          _handleMatch(route, prospect, options);
         } else {
 //          console.warn('[MeetingRouter] No matching route for:', prospect);
         }
@@ -301,16 +361,16 @@ var TYPEFORM_FIELD_MAP = {
       });
     });
   }
-  
+
   // ═══════════════════════════════════════════════════════════════════════════
   // ADAPTER — TYPEFORM
   // ═══════════════════════════════════════════════════════════════════════════
 
   /**
    * Usage:
-   *   MeetingRouter.initTypeform('paid-acquisition');
+   *   MeetingRouter.initTypeform('paid-acquisition', { container: '#veesion-meeting' });
    */
-  function initTypeform(flow) {
+  function initTypeform(flow, options) {
     global.addEventListener('message', function (event) {
       var data = event.data;
       var isSubmit = data && (data.type === 'form-submit' || data.name === 'submit');
@@ -325,8 +385,7 @@ var TYPEFORM_FIELD_MAP = {
 
       if (route) {
 //        console.log('[MeetingRouter] Matched:', route.name);
-        global.location.href = _appendContactParams(route.link, prospect);
-
+        _handleMatch(route, prospect, options);
       } else {
 //        console.warn('[MeetingRouter] No matching route for:', prospect);
       }
@@ -339,20 +398,21 @@ var TYPEFORM_FIELD_MAP = {
 
   /**
    * Usage:
-   *   const handleSubmit = MeetingRouter.createLovableHandler('paid-acquisition');
+   *   const handleSubmit = MeetingRouter.createLovableHandler('paid-acquisition', { container: '#veesion-meeting' });
    *   <form onSubmit={(e) => { e.preventDefault(); handleSubmit(formState); }}>
    *
    * formState keys must match HubSpot property names:
-   *   { country, zip, retail_store_type, job_role, number_of_cameras, number_of_stores }
+   *   { country, zip, retail_store_type, job_role, number_of_cameras,
+   *     number_of_stores, firstname, lastname, email }
    */
-  function createLovableHandler(flow) {
+  function createLovableHandler(flow, options) {
     return function (formState) {
       var prospect = _normaliseHubSpot(formState);
       var route    = findRoute(prospect, flow);
 
       if (route) {
 //        console.log('[MeetingRouter] Matched:', route.name);
-        global.location.href = _appendContactParams(route.link, prospect);
+        _handleMatch(route, prospect, options);
       } else {
 //        console.warn('[MeetingRouter] No matching route for:', prospect);
       }
