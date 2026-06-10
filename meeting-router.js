@@ -148,7 +148,7 @@
       if (!_matches(route, prospect)) continue;
 
       if (route.link === 'TBD') {
-        console.warn('[MeetingRouter] Route "' + route.name + '" matched but link is TBD — skipping.');
+//        console.warn('[MeetingRouter] Route "' + route.name + '" matched but link is TBD — skipping.');
         continue;
       }
 
@@ -271,17 +271,17 @@
         });
 
         var prospect = _normaliseHubSpot(values);
-        console.log('[MeetingRouter] values keys:', Object.keys(values), '→ prospect:', prospect);
+//        console.log('[MeetingRouter] values keys:', Object.keys(values), '→ prospect:', prospect);
         var route    = findRoute(prospect, flow);
 
         if (route) {
-          console.log('[MeetingRouter] Matched:', route.name);
+//          console.log('[MeetingRouter] Matched:', route.name);
           global.location.href = route.link;
         } else {
-          console.warn('[MeetingRouter] No matching route for:', prospect);
+//          console.warn('[MeetingRouter] No matching route for:', prospect);
         }
       }).catch(function (err) {
-        console.error('[MeetingRouter] Failed to read V4 field values:', err);
+//        console.error('[MeetingRouter] Failed to read V4 field values:', err);
       });
     });
   }
@@ -308,10 +308,10 @@
       var route    = findRoute(prospect, flow);
 
       if (route) {
-        console.log('[MeetingRouter] Matched:', route.name);
+//        console.log('[MeetingRouter] Matched:', route.name);
         global.location.href = route.link;
       } else {
-        console.warn('[MeetingRouter] No matching route for:', prospect);
+//        console.warn('[MeetingRouter] No matching route for:', prospect);
       }
     });
   }
@@ -334,10 +334,10 @@
       var route    = findRoute(prospect, flow);
 
       if (route) {
-        console.log('[MeetingRouter] Matched:', route.name);
+//        console.log('[MeetingRouter] Matched:', route.name);
         global.location.href = route.link;
       } else {
-        console.warn('[MeetingRouter] No matching route for:', prospect);
+//        console.warn('[MeetingRouter] No matching route for:', prospect);
       }
 
       return route;
