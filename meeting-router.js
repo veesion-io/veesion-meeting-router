@@ -446,10 +446,30 @@
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
+  // CONVENIENCE — RESOLVE + EMBED IN ONE CALL
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  /**
+   * For pages that already hold a prospect (e.g. a post-redirect landing page
+   * that read the query string): find the route and embed it. Returns the
+   * matched route, or null when nothing matched (so the caller can show a
+   * fallback). On this kind of page there's no form to strip, so callers
+   * typically pass { removeSelector: null }.
+   *
+   *   MeetingRouter.route(prospect, 'paid-acquisition', { container: '#meeting-embed' });
+   */
+  function route(prospect, flow, options) {
+    var matched = findRoute(prospect, flow);
+    if (matched) _handleMatch(matched, prospect, options);
+    return matched;
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
   // PUBLIC API
   // ═══════════════════════════════════════════════════════════════════════════
     var MeetingRouter = {
     findRoute:            findRoute,
+    route:                route,
     initHubSpot:          initHubSpot,
     initTypeform:         initTypeform,
     createLovableHandler: createLovableHandler
