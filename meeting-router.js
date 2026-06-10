@@ -157,6 +157,16 @@
     return null;
   }
 
+function _appendContactParams(link, p) {
+  var params = [];
+  if (p.firstName) params.push('firstName=' + encodeURIComponent(p.firstName));
+  if (p.lastName)  params.push('lastName='  + encodeURIComponent(p.lastName));
+  if (p.email)     params.push('email='     + encodeURIComponent(p.email));
+  if (!params.length) return link;
+  var sep = link.indexOf('?') === -1 ? '?' : '&';
+  return link + sep + params.join('&');
+}
+
   function _matches(route, p) {
     // Countries
     if (route.countries.length && route.countries.indexOf(p.country) === -1)
@@ -206,33 +216,39 @@
   // FIELD NORMALISATION
   // ═══════════════════════════════════════════════════════════════════════════
 
-  function _normaliseHubSpot(values) {
-    return {
-      country:   values['where_from']        || null,
-      zip:       values['zip']               || null,
-      storeType: values['retail_store_type'] || null,
-      jobRole:   values['job_role']          || null,
-      cameras:   values['nombre_de_cameras_dans_le_magasin'] || null,
-      stores:    parseInt(values['number_of_store_s_'], 10) || 0,
-      timezone:  values['hs_timezone']       || _getBrowserTimezone()
-    };
-  }
-
-  var TYPEFORM_FIELD_MAP = {
-    'country':           'country',
-    'zip':               'zip',
-    'retail_store_type': 'storeType',
-    'job_role':          'jobRole',
-    'number_of_cameras': 'cameras',
-    'number_of_stores':  'stores'
+function _normaliseHubSpot(values) {
+  return {
+    country:   values['where_from']        || null,
+    zip:       values['zip']               || null,
+    storeType: values['retail_store_type'] || null,
+    jobRole:   values['job_role']          || null,
+    cameras:   values['nombre_de_cameras_dans_le_magasin'] || null,
+    stores:    parseInt(values['number_of_store_s_'], 10) || 0,
+    timezone:  values['hs_timezone']       || _getBrowserTimezone(),
+    firstName: values['firstname']         || null,
+    lastName:  values['lastname']          || null,
+    email:     values['email']             || null
   };
+}
+
+var TYPEFORM_FIELD_MAP = {
+  'country':           'country',
+  'zip':               'zip',
+  'retail_store_type': 'storeType',
+  'job_role':          'jobRole',
+  'number_of_cameras': 'cameras',
+  'number_of_stores':  'stores',
+  'first_name':        'firstName',
+  'last_name':         'lastName',
+  'email':             'email'
+};
 
   function _normaliseTypeform(answers) {
     var p = { timezone: _getBrowserTimezone() };
     (answers || []).forEach(function (answer) {
       var key = TYPEFORM_FIELD_MAP[answer.field && answer.field.ref];
       if (!key) return;
-      var val = answer.text || (answer.choice && answer.choice.label) || answer.number || null;
+      var val = answer.text || answer.email || (answer.choice && answer.choice.label) || answer.number || null;
       if (key === 'stores') val = parseInt(val, 10) || 0;
       p[key] = val;
     });
@@ -276,7 +292,7 @@
 
         if (route) {
 //          console.log('[MeetingRouter] Matched:', route.name);
-          global.location.href = route.link;
+          global.location.href = _appendContactParams(route.link, prospect);
         } else {
 //          console.warn('[MeetingRouter] No matching route for:', prospect);
         }
@@ -309,7 +325,8 @@
 
       if (route) {
 //        console.log('[MeetingRouter] Matched:', route.name);
-        global.location.href = route.link;
+        global.location.href = _appendContactParams(route.link, prospect);
+
       } else {
 //        console.warn('[MeetingRouter] No matching route for:', prospect);
       }
@@ -335,7 +352,7 @@
 
       if (route) {
 //        console.log('[MeetingRouter] Matched:', route.name);
-        global.location.href = route.link;
+        global.location.href = _appendContactParams(route.link, prospect);
       } else {
 //        console.warn('[MeetingRouter] No matching route for:', prospect);
       }
