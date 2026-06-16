@@ -471,6 +471,7 @@
    *   MeetingRouter.route(prospect, 'paid-acquisition', { container: '#meeting-embed' });
    */
   function route(prospect, flow, options) {
+    console.log({prospect});
     var matched = findRoute(prospect, flow);
     if (matched) _handleMatch(matched, prospect, options);
     return matched;
