@@ -47,7 +47,7 @@
       name: 'C-FR-1', flow: 'paid-acquisition',
       link: 'https://fr.veesion.io/meetings/veesion/c-fr-1',
       countries: ['France', 'Belgium'],
-      locationType: 'zip_prefix', locationValues: ['75.92'],
+      locationType: 'zip_prefix', locationValues: ['75', '92'],
       storeTypes: ['Supermarket', 'Pharmacy'],
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Store Owner'],
       cameras: ['10-14 cameras', '15 - 34 cameras'],
