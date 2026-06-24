@@ -2,11 +2,7 @@
  * meeting-router.js
  * ─────────────────────────────────────────────────────────────────────────────
  * Auto-generated from the Veesion Routes GSheet.
- * DO NOT EDIT MANUALLY — update the GSheet and re-run the Claude Code skill.
- *
- * NOTE: the contact-param + embed logic below lives in the ENGINE/ADAPTERS,
- * not the route table. If you only edit the generated output it will be wiped
- * on the next skill run — fold these changes into the generator template.
+ * DO NOT EDIT MANUALLY — update the GSheet and re-run the script.
  *
  * Generated: 2026-06-02
  * ─────────────────────────────────────────────────────────────────────────────
