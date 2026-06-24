@@ -43,12 +43,11 @@
   // ═══════════════════════════════════════════════════════════════════════════
   var ROUTES = [
 
-    // ── France ────────────────────────────────────────────────────────────────
     {
       name: 'C-FR-1', flow: 'paid-acquisition',
       link: 'https://fr.veesion.io/meetings/veesion/c-fr-1',
       countries: ['France'],
-      locationType: 'zip_prefix', locationValues: ['75', '92'],
+      locationType: 'zip_prefix', locationValues: ['75.92'],
       storeTypes: ['Supermarket', 'Pharmacy'],
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Store Owner'],
       cameras: ['10-14 cameras', '15 - 34 cameras'],
@@ -65,18 +64,15 @@
       minStores: 1
     },
     {
-      // Rest of France + Belgium — excludes all Paris/IDF prefixes
       name: 'C-FR-3', flow: 'paid-acquisition',
       link: 'https://fr.veesion.io/meetings/veesion/c-fr-3',
       countries: ['France', 'Belgium'],
       locationType: 'zip_prefix_exclude', locationValues: ['75', '77', '78', '91', '92', '93', '94', '95'],
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station', 'Convenience store'],
-      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Store owner'],
+      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Store Owner'],
       cameras: ['10-14 cameras', '15 - 34 cameras'],
       minStores: 1
     },
-
-    // ── Spain ─────────────────────────────────────────────────────────────────
     {
       name: 'C-ES-1', flow: 'paid-acquisition',
       link: 'https://fr.veesion.io/meetings/veesion/c-es-1',
@@ -87,8 +83,6 @@
       cameras: ['10-14 cameras', '15 - 34 cameras', '+ 35 cameras'],
       minStores: 1
     },
-
-    // ── Italy ─────────────────────────────────────────────────────────────────
     {
       name: 'C-IT-1', flow: 'paid-acquisition',
       link: 'https://fr.veesion.io/meetings/veesion/c-it-1',
@@ -99,11 +93,7 @@
       cameras: [],
       minStores: 1
     },
-
-    // ── Brazil / Portugal ─────────────────────────────────────────────────────
     {
-      // ⚠️  Meeting link not yet created — route is skipped at runtime.
-      // Update the link value and remove this comment once the link is live.
       name: 'C-BR-1', flow: 'paid-acquisition',
       link: 'TBD',
       countries: ['Portugal', 'Brazil'],
@@ -113,9 +103,6 @@
       cameras: ['15 - 34 cameras', '+ 35 cameras'],
       minStores: 1
     },
-
-    // ── United States / Canada ────────────────────────────────────────────────
-    // C-US-2 must stay above C-US-1 — 10+ stores prospects are caught here first.
     {
       name: 'C-US-2', flow: 'paid-acquisition',
       link: 'https://fr.veesion.io/meetings/veesion/c-us-2',
@@ -127,7 +114,6 @@
       minStores: 10
     },
     {
-      // Catches US/CA prospects with < 10 stores (C-US-2 already handled 10+)
       name: 'C-US-1', flow: 'paid-acquisition',
       link: 'https://fr.veesion.io/meetings/veesion/c-us-1',
       countries: ['United States', 'Canada'],
@@ -153,7 +139,6 @@
    * @returns {object|null}   - Matching route object, or null
    */
   function findRoute(prospect, flow) {
-    console.log({prospect});
     var pool = flow
       ? ROUTES.filter(function (r) { return r.flow === flow; })
       : ROUTES;
@@ -468,7 +453,6 @@
    *   MeetingRouter.route(prospect, 'paid-acquisition', { container: '#meeting-embed' });
    */
   function route(prospect, flow, options) {
-    console.log({prospect});
     var matched = findRoute(prospect, flow);
     if (matched) _handleMatch(matched, prospect, options);
     return matched;
