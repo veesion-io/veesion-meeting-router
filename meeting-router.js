@@ -122,6 +122,16 @@
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Store Owner'],
       cameras: ['10-14 cameras', '15 - 34 cameras'],
       minStores: 1
+    },
+    {
+      name: 'C-UK-1', flow: 'paid-acquisition',
+      link: 'TBD',
+      countries: ['United Kingdom'],
+      locationType: '', locationValues: [],
+      storeTypes: ['Supermarket', 'Pharmacy'],
+      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Store Owner'],
+      cameras: ['10-14 cameras', '15 - 34 cameras', '+ 35 cameras'],
+      minStores: 1
     }
 
   ];
