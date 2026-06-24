@@ -185,7 +185,7 @@
       if (route.locationValues.some(function (pfx) { return zip2.startsWith(pfx); }))
         return false;
     } else if (route.locationType === 'timezone' && route.locationValues.length) {
-      if (p.timezone !== route.locationValues[0]) return false;
+      if (!_includesLoose(route.locationValues, p.timezone)) return false;
     }
 
     // Store type
