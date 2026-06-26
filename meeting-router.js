@@ -49,7 +49,7 @@
       countries: ['France', 'Belgium'],
       locationType: 'zip_prefix', locationValues: ['75', '92'],
       storeTypes: ['Supermarket', 'Pharmacy'],
-      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Store Owner'],
+      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail'],
       cameras: ['10-14 cameras', '15 - 34 cameras'],
       minStores: 1
     },
@@ -59,7 +59,7 @@
       countries: ['France'],
       locationType: 'zip_prefix', locationValues: ['77', '78', '91', '93', '94', '95'],
       storeTypes: ['Supermarket', 'Pharmacy'],
-      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Store Owner'],
+      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail'],
       cameras: ['10-14 cameras', '15 - 34 cameras'],
       minStores: 1
     },
@@ -69,27 +69,27 @@
       countries: ['France', 'Belgium'],
       locationType: 'zip_prefix_exclude', locationValues: ['75', '77', '78', '91', '92', '93', '94', '95'],
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station', 'Convenience store'],
-      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Store Owner'],
+      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail'],
       cameras: ['10-14 cameras', '15 - 34 cameras'],
       minStores: 1
     },
     {
       name: 'C-ES-1', flow: 'paid-acquisition',
-      link: 'https://fr.veesion.io/meetings/veesion/c-es-1',
+      link: 'https://veesion.io/meetings/veesion/c-es-1',
       countries: ['Spain'],
       locationType: '', locationValues: [],
       storeTypes: ['Supermarket', 'Pharmacy', 'Convenience store', 'Electronics store', 'Hardware Store', 'Gas station'],
-      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Store Owner'],
+      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail'],
       cameras: ['10-14 cameras', '15 - 34 cameras', '+ 35 cameras'],
       minStores: 1
     },
     {
       name: 'C-IT-1', flow: 'paid-acquisition',
-      link: 'https://fr.veesion.io/meetings/veesion/c-it-1',
+      link: 'https://veesion.io/meetings/veesion/c-it-1',
       countries: ['Italy'],
       locationType: '', locationValues: [],
       storeTypes: ['Supermarket', 'Pharmacy', 'Hardware Store', 'Convenience store', 'Electronics store', 'Gas station'],
-      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Store Owner'],
+      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail'],
       cameras: [],
       minStores: 1
     },
@@ -99,37 +99,37 @@
       countries: ['Portugal', 'Brazil'],
       locationType: '', locationValues: [],
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station', 'Convenience store', 'Grocery Store (Convenience store)', 'Electronics store', 'Hardware Store', 'Gardening Store'],
-      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Store Owner'],
+      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail'],
       cameras: ['15 - 34 cameras', '+ 35 cameras'],
       minStores: 1
     },
     {
       name: 'C-US-2', flow: 'paid-acquisition',
-      link: 'https://fr.veesion.io/meetings/veesion/c-us-2',
+      link: 'https://veesion.io/meetings/veesion/c-us-2',
       countries: ['United States', 'Canada'],
       locationType: '', locationValues: [],
       storeTypes: ['Liquor store', 'Convenience store', 'Gas station', 'Grocery Store (Convenience store)', 'Supermarket', 'Pharmacy'],
-      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Store Owner'],
+      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail'],
       cameras: [],
       minStores: 10
     },
     {
       name: 'C-US-1', flow: 'paid-acquisition',
-      link: 'https://fr.veesion.io/meetings/veesion/c-us-1',
+      link: 'https://veesion.io/meetings/veesion/c-us-1',
       countries: ['United States', 'Canada'],
       locationType: '', locationValues: [],
       storeTypes: ['Convenience store', 'Gas station', 'Liquor store', 'Supermarket', 'Pharmacy', 'Grocery Store (Convenience store)'],
-      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Store Owner'],
+      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail'],
       cameras: ['10-14 cameras', '15 - 34 cameras'],
       minStores: 1
     },
     {
       name: 'C-UK-1', flow: 'paid-acquisition',
-      link: 'TBD',
+      link: 'https://veesion.io/meetings/veesion/c-uk-1',
       countries: ['United Kingdom'],
       locationType: '', locationValues: [],
-      storeTypes: ['Supermarket', 'Pharmacy'],
-      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Store Owner'],
+      storeTypes: ['Supermarket', 'Pharmacy', 'Gas station'],
+      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail'],
       cameras: ['10-14 cameras', '15 - 34 cameras', '+ 35 cameras'],
       minStores: 1
     }
