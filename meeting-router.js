@@ -125,7 +125,7 @@
     },
     {
       name: 'C-UK-1', flow: 'paid-acquisition',
-      link: 'https://veesion.io/meetings/veesion/c-uk-1',
+      link: 'https://meetings-eu1.hubspot.com/veesion-/h-uk-1',
       countries: ['United Kingdom'],
       locationType: '', locationValues: [],
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station'],
