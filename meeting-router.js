@@ -125,7 +125,7 @@
     },
     {
       name: 'C-UK-1', flow: 'paid-acquisition',
-      link: 'https://meetings-eu1.hubspot.com/veesion-/h-uk-1',
+      link: 'TBD',
       countries: ['United Kingdom'],
       locationType: '', locationValues: [],
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station'],
