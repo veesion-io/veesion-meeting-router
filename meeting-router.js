@@ -124,7 +124,7 @@
     },
     {
       name: 'C-UK-1', flow: 'paid-acquisition',
-      link: 'TBD',
+      link: 'TBC',
       countries: ['United Kingdom', 'Ireland'],
       locationType: '', locationValues: [],
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station'],
