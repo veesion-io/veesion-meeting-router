@@ -125,7 +125,7 @@
     {
       name: 'C-UK-1', flow: 'paid-acquisition',
       link: 'TBD',
-      countries: ['United Kingdom'],
+      countries: ['United Kingdom', 'Ireland'],
       locationType: '', locationValues: [],
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station'],
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail'],
