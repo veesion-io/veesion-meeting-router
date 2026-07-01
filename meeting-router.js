@@ -2,9 +2,9 @@
  * meeting-router.js
  * ─────────────────────────────────────────────────────────────────────────────
  * Auto-generated and updated from the Veesion Routes GSheet.
- * DO NOT EDIT MANUALLY — update the GSheet and re-run the script.
+ * DO NOT EDIT MANUALLY. Update the GSheet or the publisher Apps Script, then re-run.
  *
- * Generated: 2026-06-02
+ * Source of truth: Veesion Routes GSheet + publisher Apps Script (ROUTER_TEMPLATE).
  * ─────────────────────────────────────────────────────────────────────────────
  *
  * Supported flow key:
@@ -24,25 +24,24 @@
  * Routes with link = "TBD" are kept in the table for traceability but are
  * skipped at runtime — the router moves on to the next matching route.
  */
-
+ 
 (function (global) {
   'use strict';
-
+ 
   // Default DOM container the matched meeting scheduler is embedded into.
   // Override per-call with: initHubSpot('paid-acquisition', { container: '#x' })
   var DEFAULT_CONTAINER = '#veesion-meeting';
-
+ 
   // Element(s) removed from the DOM once a route matches — the HubSpot form
   // frame, so the scheduler replaces the form instead of stacking under it.
   // Override per-call with { removeSelector: '...' }, or disable with
   // { removeSelector: null }. Harmless no-op on pages without this element.
   var DEFAULT_REMOVE_SELECTOR = '.hs-form-frame';
-
+ 
   // ═══════════════════════════════════════════════════════════════════════════
   // ROUTE TABLE  ·  auto-generated — do not edit
   // ═══════════════════════════════════════════════════════════════════════════
   var ROUTES = [
-
     {
       name: 'C-FR-1', flow: 'paid-acquisition',
       link: 'https://fr.veesion.io/meetings/veesion/c-fr-1',
@@ -125,7 +124,7 @@
     },
     {
       name: 'C-UK-1', flow: 'paid-acquisition',
-      link: 'TBD',
+      link: 'TBC',
       countries: ['United Kingdom'],
       locationType: '', locationValues: [],
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station'],
@@ -133,13 +132,12 @@
       cameras: ['10-14 cameras', '15 - 34 cameras', '+ 35 cameras'],
       minStores: 1
     }
-
   ];
-
+ 
   // ═══════════════════════════════════════════════════════════════════════════
   // CORE MATCHING ENGINE
   // ═══════════════════════════════════════════════════════════════════════════
-
+ 
   /**
    * Find the first matching route for a given prospect and optional flow.
    * Routes with link = "TBD" are skipped even when criteria match.
@@ -153,21 +151,21 @@
     var pool = flow
       ? ROUTES.filter(function (r) { return r.flow === flow; })
       : ROUTES;
-
+ 
     for (var i = 0; i < pool.length; i++) {
       var route = pool[i];
       if (!_matches(route, prospect)) continue;
-
+ 
       if (route.link === 'TBD') {
 //        console.warn('[MeetingRouter] Route "' + route.name + '" matched but link is TBD — skipping.');
         continue;
       }
-
+ 
       return route;
     }
     return null;
   }
-
+ 
   // Case- and whitespace-insensitive membership test for label lists, so
   // "Store Owner" / "Store owner" / " store owner " all match the same route.
   // Used for free-text picklist labels (countries, store types, job roles,
@@ -179,12 +177,12 @@
       return String(item).trim().toLowerCase() === needle;
     });
   }
-
+ 
   function _matches(route, p) {
     // Countries
     if (route.countries.length && !_includesLoose(route.countries, p.country))
       return false;
-
+ 
     // Location
     if (route.locationType === 'zip_prefix' && route.locationValues.length) {
       var zip = String(p.zip || '');
@@ -197,34 +195,34 @@
     } else if (route.locationType === 'timezone' && route.locationValues.length) {
       if (!_includesLoose(route.locationValues, p.timezone)) return false;
     }
-
+ 
     // Store type
     if (route.storeTypes.length && p.storeType &&
         !_includesLoose(route.storeTypes, p.storeType))
       return false;
-
+ 
     // Job role
     if (route.jobRoles.length && p.jobRole &&
         !_includesLoose(route.jobRoles, p.jobRole))
       return false;
-
+ 
     // Cameras — route specifies allowed picklist values; empty prospect value → no match
     if (route.cameras.length) {
       if (!p.cameras || !_includesLoose(route.cameras, p.cameras)) return false;
     }
-
+ 
     // Min stores
     if (route.minStores !== null && (p.stores || 0) < route.minStores)
       return false;
-
+ 
     return true;
   }
-
+ 
   // ── Timezone helper ──────────────────────────────────────────────────────────
   function _getBrowserTimezone() {
     try { return Intl.DateTimeFormat().resolvedOptions().timeZone; } catch (e) { return null; }
   }
-
+ 
   // ── Contact-param helper ──────────────────────────────────────────────────────
   /**
    * Append firstName / lastName / email to a meeting link as query params.
@@ -240,7 +238,7 @@
     var sep = link.indexOf('?') === -1 ? '?' : '&';
     return link + sep + params.join('&');
   }
-
+ 
   // ── Embed helper ──────────────────────────────────────────────────────────────
   /**
    * Render a HubSpot meeting scheduler into a container element instead of
@@ -255,19 +253,19 @@
       console.warn('[MeetingRouter] embed container not found:', sel);
       return;
     }
-
+ 
     el.innerHTML = '';  // clear any previous render
-
+ 
     var div = global.document.createElement('div');
     div.className = 'meetings-iframe-container';
     div.setAttribute('data-src', url + (url.indexOf('?') === -1 ? '?' : '&') + 'embed=true');
     el.appendChild(div);
-
+ 
     var s = global.document.createElement('script');
     s.src = 'https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js';
     el.appendChild(s);
   }
-
+ 
   /**
    * Remove the HubSpot form frame (or any selector) from the DOM. Called once
    * a route matches so the scheduler replaces the form. Removes ALL matches;
@@ -280,7 +278,7 @@
       if (nodes[i] && nodes[i].parentNode) nodes[i].parentNode.removeChild(nodes[i]);
     }
   }
-
+ 
   /**
    * Shared "what to do on a match" — embeds the scheduler on every provider
    * and removes the form frame from the DOM.
@@ -300,11 +298,11 @@
     _embed(url, options.container);
     _removeElements('removeSelector' in options ? options.removeSelector : DEFAULT_REMOVE_SELECTOR);
   }
-
+ 
   // ═══════════════════════════════════════════════════════════════════════════
   // FIELD NORMALISATION
   // ═══════════════════════════════════════════════════════════════════════════
-
+ 
   function _normaliseHubSpot(values) {
     return {
       country:   values['where_from']        || null,
@@ -319,7 +317,7 @@
       email:     values['email']             || null
     };
   }
-
+ 
   var TYPEFORM_FIELD_MAP = {
     'country':           'country',
     'zip':               'zip',
@@ -331,7 +329,7 @@
     'last_name':         'lastName',
     'email':             'email'
   };
-
+ 
   function _normaliseTypeform(answers) {
     var p = { timezone: _getBrowserTimezone() };
     (answers || []).forEach(function (answer) {
@@ -343,12 +341,12 @@
     });
     return p;
   }
-
-
+ 
+ 
   // ═══════════════════════════════════════════════════════════════════════════
   // ADAPTER — HUBSPOT FORMS V4 (native, non-iframe)
   // ═══════════════════════════════════════════════════════════════════════════
-
+ 
   /**
    * Usage (place once on any page where a V4 form is embedded):
    *   MeetingRouter.initHubSpot('paid-acquisition', { container: '#veesion-meeting' });
@@ -366,7 +364,7 @@
         console.warn('[MeetingRouter] V4 form instance unavailable.');
         return;
       }
-
+ 
       form.getFormFieldValues().then(function (fields) {
         var values = {};
         (fields || []).forEach(function (f) {
@@ -374,11 +372,11 @@
           var name = f.name.replace(/^\d+-\d+\//, '');            // strip "0-1/" prefix
           values[name] = Array.isArray(f.value) ? f.value[0] : f.value;
         });
-
+ 
         var prospect = _normaliseHubSpot(values);
 //        console.log('[MeetingRouter] values keys:', Object.keys(values), '→ prospect:', prospect);
         var route    = findRoute(prospect, flow);
-
+ 
         if (route) {
 //          console.log('[MeetingRouter] Matched:', route.name);
           _handleMatch(route, prospect, options);
@@ -390,11 +388,11 @@
       });
     });
   }
-
+ 
   // ═══════════════════════════════════════════════════════════════════════════
   // ADAPTER — TYPEFORM
   // ═══════════════════════════════════════════════════════════════════════════
-
+ 
   /**
    * Usage:
    *   MeetingRouter.initTypeform('paid-acquisition', { container: '#veesion-meeting' });
@@ -404,14 +402,14 @@
       var data = event.data;
       var isSubmit = data && (data.type === 'form-submit' || data.name === 'submit');
       if (!isSubmit) return;
-
+ 
       var answers = (data.response && data.response.answers)
                  || (data.formResponse && data.formResponse.answers)
                  || [];
-
+ 
       var prospect = _normaliseTypeform(answers);
       var route    = findRoute(prospect, flow);
-
+ 
       if (route) {
 //        console.log('[MeetingRouter] Matched:', route.name);
         _handleMatch(route, prospect, options);
@@ -420,11 +418,11 @@
       }
     });
   }
-
+ 
   // ═══════════════════════════════════════════════════════════════════════════
   // ADAPTER — LOVABLE (React)
   // ═══════════════════════════════════════════════════════════════════════════
-
+ 
   /**
    * Usage:
    *   const handleSubmit = MeetingRouter.createLovableHandler('paid-acquisition', { container: '#veesion-meeting' });
@@ -438,22 +436,22 @@
     return function (formState) {
       var prospect = _normaliseHubSpot(formState);
       var route    = findRoute(prospect, flow);
-
+ 
       if (route) {
 //        console.log('[MeetingRouter] Matched:', route.name);
         _handleMatch(route, prospect, options);
       } else {
 //        console.warn('[MeetingRouter] No matching route for:', prospect);
       }
-
+ 
       return route;
     };
   }
-
+ 
   // ═══════════════════════════════════════════════════════════════════════════
   // CONVENIENCE — RESOLVE + EMBED IN ONE CALL
   // ═══════════════════════════════════════════════════════════════════════════
-
+ 
   /**
    * For pages that already hold a prospect (e.g. a post-redirect landing page
    * that read the query string): find the route and embed it. Returns the
@@ -468,7 +466,7 @@
     if (matched) _handleMatch(matched, prospect, options);
     return matched;
   }
-
+ 
   // ═══════════════════════════════════════════════════════════════════════════
   // PUBLIC API
   // ═══════════════════════════════════════════════════════════════════════════
@@ -479,11 +477,11 @@
     initTypeform:         initTypeform,
     createLovableHandler: createLovableHandler
   };
-
+ 
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = MeetingRouter;
   } else {
     global.MeetingRouter = MeetingRouter;
   }
-
+ 
 })(typeof window !== 'undefined' ? window : global);
