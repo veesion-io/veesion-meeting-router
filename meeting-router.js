@@ -94,7 +94,7 @@
     },
     {
       name: 'C-BR-1', flow: 'paid-acquisition',
-      link: 'TBD',
+      link: 'https://meetings-eu1.hubspot.com/veesion-/c-br-1',
       countries: ['Portugal', 'Brazil'],
       locationType: '', locationValues: [],
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station', 'Convenience store', 'Grocery Store (Convenience store)', 'Electronics store', 'Hardware Store', 'Gardening Store'],
