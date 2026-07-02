@@ -131,6 +131,16 @@
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail'],
       cameras: ['10-14 cameras', '15 - 34 cameras', '+ 35 cameras'],
       minStores: 1
+    },
+    {
+      name: 'C-CATCH', flow: 'paid-acquisition',
+      link: 'https://meetings-eu1.hubspot.com/veesion-/c-catch',
+      countries: ['CATCH'],
+      locationType: '', locationValues: [],
+      storeTypes: ['Supermarket', 'Pharmacy', 'Gas station'],
+      jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail'],
+      cameras: ['10-14 cameras', '15 - 34 cameras', '+ 35 cameras'],
+      minStores: 1
     }
     ];
   
@@ -178,10 +188,24 @@
       });
     }
   
+    // Countries claimed by other (non-CATCH) routes in the same flow.
+    // A CATCH route matches any country not in this list.
+    function _claimedCountries(flow) {
+      var claimed = [];
+      ROUTES.forEach(function (r) {
+        if (r.flow !== flow || _includesLoose(r.countries, 'CATCH')) return;
+        r.countries.forEach(function (c) { claimed.push(c); });
+      });
+      return claimed;
+    }
+  
     function _matches(route, p) {
-      // Countries
-      if (route.countries.length && !_includesLoose(route.countries, p.country))
+      // Countries — "CATCH" matches any country not claimed by another route.
+      if (_includesLoose(route.countries, 'CATCH')) {
+        if (_includesLoose(_claimedCountries(route.flow), p.country)) return false;
+      } else if (route.countries.length && !_includesLoose(route.countries, p.country)) {
         return false;
+      }
   
       // Location
       if (route.locationType === 'zip_prefix' && route.locationValues.length) {
