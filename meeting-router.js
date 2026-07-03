@@ -157,8 +157,7 @@
      * @returns {object|null}   - Matching route object, or null
      */
     function findRoute(prospect, flow) {
-    console.log({ prospect: prospect }); //__INPUT_LOG__
-      /*__LOG_INPUT__*/
+      console.log('[MeetingRouter] prospect:', prospect, '| flow:', flow);
       var pool = flow
         ? ROUTES.filter(function (r) { return r.flow === flow; })
         : ROUTES;
@@ -177,7 +176,7 @@
         break;
       }
   
-      /*__LOG_OUTPUT__*/
+      console.log('[MeetingRouter] matched:', matched ? matched.name : null, '| candidates:', pool.length);
       return matched;
     }
   
