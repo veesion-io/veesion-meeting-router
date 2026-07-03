@@ -203,46 +203,54 @@
       return claimed;
     }
   
-    function _matches(route, p) {
-      // Countries — "CATCH" matches any country not claimed by another route.
-      if (_includesLoose(route.countries, 'CATCH')) {
-        if (_includesLoose(_claimedCountries(route.flow), p.country)) return false;
-      } else if (route.countries.length && !_includesLoose(route.countries, p.country)) {
+        function _matches(route, p) {
+      function reject(reason) {
+        console.log('[MeetingRouter] reject:', route.name, '|', reason);
         return false;
       }
-  
+
+      // Countries
+      if (_includesLoose(route.countries, 'CATCH')) {
+        if (_includesLoose(_claimedCountries(route.flow), p.country))
+          return reject('CATCH: country claimed by another route');
+      } else if (route.countries.length && !_includesLoose(route.countries, p.country)) {
+        return reject('country ' + JSON.stringify(p.country) + ' not in [' + route.countries.join(', ') + ']');
+      }
+
       // Location
       if (route.locationType === 'zip_prefix' && route.locationValues.length) {
         var zip = String(p.zip || '');
         if (!route.locationValues.some(function (pfx) { return zip.startsWith(pfx); }))
-          return false;
+          return reject('zip ' + JSON.stringify(p.zip) + ' matches no prefix in [' + route.locationValues.join(', ') + ']');
       } else if (route.locationType === 'zip_prefix_exclude' && route.locationValues.length) {
         var zip2 = String(p.zip || '');
         if (route.locationValues.some(function (pfx) { return zip2.startsWith(pfx); }))
-          return false;
+          return reject('zip ' + JSON.stringify(p.zip) + ' excluded by [' + route.locationValues.join(', ') + ']');
       } else if (route.locationType === 'timezone' && route.locationValues.length) {
-        if (!_includesLoose(route.locationValues, p.timezone)) return false;
+        if (!_includesLoose(route.locationValues, p.timezone))
+          return reject('timezone ' + JSON.stringify(p.timezone) + ' not in [' + route.locationValues.join(', ') + ']');
       }
-  
+
       // Store type
       if (route.storeTypes.length && p.storeType &&
           !_includesLoose(route.storeTypes, p.storeType))
-        return false;
-  
+        return reject('storeType ' + JSON.stringify(p.storeType) + ' not in [' + route.storeTypes.join(', ') + ']');
+
       // Job role
       if (route.jobRoles.length && p.jobRole &&
           !_includesLoose(route.jobRoles, p.jobRole))
-        return false;
-  
-      // Cameras — route specifies allowed picklist values; empty prospect value → no match
+        return reject('jobRole ' + JSON.stringify(p.jobRole) + ' not in [' + route.jobRoles.join(', ') + ']');
+
+      // Cameras
       if (route.cameras.length) {
-        if (!p.cameras || !_includesLoose(route.cameras, p.cameras)) return false;
+        if (!p.cameras || !_includesLoose(route.cameras, p.cameras))
+          return reject('cameras ' + JSON.stringify(p.cameras) + ' not in [' + route.cameras.join(', ') + ']');
       }
-  
+
       // Min stores
       if (route.minStores !== null && (p.stores || 0) < route.minStores)
-        return false;
-  
+        return reject('stores ' + p.stores + ' < minStores ' + route.minStores);
+
       return true;
     }
   
