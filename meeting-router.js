@@ -125,7 +125,7 @@
     {
       name: 'C-UK-1', flow: 'paid-acquisition',
       link: 'TBC',
-      countries: ['United Kingdom', 'Ireland'],
+      countries: ['United Kingdom', 'Ireland', 'Scotland'],
       locationType: '', locationValues: [],
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station'],
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail'],
