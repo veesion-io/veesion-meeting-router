@@ -158,23 +158,27 @@
      */
     function findRoute(prospect, flow) {
     console.log({ prospect: prospect }); //__INPUT_LOG__
+      /*__LOG_INPUT__*/
       var pool = flow
         ? ROUTES.filter(function (r) { return r.flow === flow; })
         : ROUTES;
   
+      var matched = null;
       for (var i = 0; i < pool.length; i++) {
         var route = pool[i];
         if (!_matches(route, prospect)) continue;
   
         if (route.link === 'TBD') {
-  //        console.warn('[MeetingRouter] Route "' + route.name + '" matched but link is TBD — skipping.');
+  //        console.warn('[MeetingRouter] Route "' + route.name + '" matched but link is TBD, skipping.');
           continue;
         }
   
-        console.log({ route: route }); //__OUTPUT_LOG__
-        return route;
+        matched = route;
+        break;
       }
-      return null;
+  
+      /*__LOG_OUTPUT__*/
+      return matched;
     }
   
     // Case- and whitespace-insensitive membership test for label lists, so
