@@ -43,7 +43,7 @@
     // ═══════════════════════════════════════════════════════════════════════════
     var ROUTES = [
       {
-      name: 'C-FR-1', flow: 'paid-acquisition',
+      name: 'C-FR-1', flow: 'paid-acquisition-website-forms',
       link: 'https://fr.veesion.io/meetings/veesion/c-fr-1',
       countries: ['France', 'Belgium'],
       locationType: 'zip_prefix', locationValues: ['75', '92'],
@@ -53,7 +53,7 @@
       minStores: 1
     },
     {
-      name: 'C-FR-2', flow: 'paid-acquisition',
+      name: 'C-FR-2', flow: 'paid-acquisition-website-forms',
       link: 'https://fr.veesion.io/meetings/veesion/c-fr-2',
       countries: ['France'],
       locationType: 'zip_prefix', locationValues: ['77', '78', '91', '93', '94', '95'],
@@ -63,7 +63,7 @@
       minStores: 1
     },
     {
-      name: 'C-FR-3', flow: 'paid-acquisition',
+      name: 'C-FR-3', flow: 'paid-acquisition-website-forms',
       link: 'https://fr.veesion.io/meetings/veesion/c-fr-3',
       countries: ['France', 'Belgium'],
       locationType: 'zip_prefix_exclude', locationValues: ['75', '77', '78', '91', '92', '93', '94', '95'],
@@ -73,7 +73,7 @@
       minStores: 1
     },
     {
-      name: 'C-ES-1', flow: 'paid-acquisition',
+      name: 'C-ES-1', flow: 'paid-acquisition-website-forms',
       link: 'https://veesion.io/meetings/veesion/c-es-1',
       countries: ['Spain'],
       locationType: '', locationValues: [],
@@ -83,7 +83,7 @@
       minStores: 1
     },
     {
-      name: 'C-IT-1', flow: 'paid-acquisition',
+      name: 'C-IT-1', flow: 'paid-acquisition-website-forms',
       link: 'https://veesion.io/meetings/veesion/c-it-1',
       countries: ['Italy'],
       locationType: '', locationValues: [],
@@ -93,7 +93,7 @@
       minStores: 1
     },
     {
-      name: 'C-BR-1', flow: 'paid-acquisition',
+      name: 'C-BR-1', flow: 'paid-acquisition-website-forms',
       link: 'https://meetings-eu1.hubspot.com/veesion-/c-br-1',
       countries: ['Portugal', 'Brazil'],
       locationType: '', locationValues: [],
@@ -103,7 +103,7 @@
       minStores: 1
     },
     {
-      name: 'C-US-2', flow: 'paid-acquisition',
+      name: 'C-US-2', flow: 'paid-acquisition-website-forms',
       link: 'https://veesion.io/meetings/veesion/c-us-2',
       countries: ['United States', 'Canada'],
       locationType: '', locationValues: [],
@@ -113,7 +113,7 @@
       minStores: 10
     },
     {
-      name: 'C-US-1', flow: 'paid-acquisition',
+      name: 'C-US-1', flow: 'paid-acquisition-website-forms',
       link: 'https://veesion.io/meetings/veesion/c-us-1',
       countries: ['United States', 'Canada'],
       locationType: '', locationValues: [],
@@ -123,7 +123,7 @@
       minStores: 1
     },
     {
-      name: 'C-UK-1', flow: 'paid-acquisition',
+      name: 'C-UK-1', flow: 'paid-acquisition-website-forms',
       link: 'TBC',
       countries: ['United Kingdom', 'Ireland'],
       locationType: '', locationValues: [],
