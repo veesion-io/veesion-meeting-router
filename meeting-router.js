@@ -171,6 +171,7 @@
           continue;
         }
   
+        console.log({ route: route }); //__OUTPUT_LOG__
         return route;
       }
       return null;
