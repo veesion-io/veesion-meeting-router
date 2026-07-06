@@ -74,7 +74,7 @@
     },
     {
       name: 'C-ES-1', flow: 'paid-acquisition',
-      link: 'https://veesion.io/meetings/veesion/c-es-1',
+      link: 'https://fr.veesion.io/meetings/veesion/c-es-1',
       countries: ['Spain'],
       locationType: '', locationValues: [],
       storeTypes: ['Supermarket', 'Pharmacy', 'Convenience store', 'Electronics store', 'Hardware Store', 'Gas station'],
@@ -84,7 +84,7 @@
     },
     {
       name: 'C-IT-1', flow: 'paid-acquisition',
-      link: 'https://veesion.io/meetings/veesion/c-it-1',
+      link: 'https://fr.veesion.io/meetings/veesion/c-it-1',
       countries: ['Italy'],
       locationType: '', locationValues: [],
       storeTypes: ['Supermarket', 'Pharmacy', 'Hardware Store', 'Convenience store', 'Electronics store', 'Gas station'],
@@ -104,7 +104,7 @@
     },
     {
       name: 'C-US-2', flow: 'paid-acquisition',
-      link: 'https://veesion.io/meetings/veesion/c-us-2',
+      link: 'https://fr.veesion.io/meetings/veesion/c-us-2',
       countries: ['United States', 'Canada'],
       locationType: '', locationValues: [],
       storeTypes: ['Liquor store', 'Convenience store', 'Gas station', 'Grocery Store (Convenience store)', 'Supermarket', 'Pharmacy'],
@@ -114,7 +114,7 @@
     },
     {
       name: 'C-US-1', flow: 'paid-acquisition',
-      link: 'https://veesion.io/meetings/veesion/c-us-1',
+      link: 'https://fr.veesion.io/meetings/veesion/c-us-1',
       countries: ['United States', 'Canada'],
       locationType: '', locationValues: [],
       storeTypes: ['Convenience store', 'Gas station', 'Liquor store', 'Supermarket', 'Pharmacy', 'Grocery Store (Convenience store)'],
