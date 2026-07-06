@@ -94,7 +94,7 @@
     },
     {
       name: 'C-BR-1', flow: 'paid-acquisition',
-      link: 'https://meetings-eu1.hubspot.com/veesion-/c-br-1',
+      link: 'https://fr.veesion.io/meetings/veesion-/c-br-1',
       countries: ['Portugal', 'Brazil'],
       locationType: '', locationValues: [],
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station', 'Convenience store', 'Grocery Store (Convenience store)', 'Electronics store', 'Hardware Store', 'Gardening Store'],
@@ -124,7 +124,7 @@
     },
     {
       name: 'C-UK-1', flow: 'paid-acquisition',
-      link: 'TBC',
+      link: 'https://fr.veesion.io/meetings/veesion/c-uk-1',
       countries: ['United Kingdom', 'Ireland', 'Scotland'],
       locationType: '', locationValues: [],
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station'],
