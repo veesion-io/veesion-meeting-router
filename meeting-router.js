@@ -85,7 +85,7 @@
     {
       name: 'C-IT-1', flow: 'paid-acquisition',
       link: 'https://fr.veesion.io/meetings/veesion/c-it-1',
-      countries: ['Italy'],
+      countries: ['Italy', 'Italia'],
       locationType: '', locationValues: [],
       storeTypes: ['Supermarket', 'Pharmacy', 'Hardware Store', 'Convenience store', 'Electronics store', 'Gas station'],
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail', 'Store Owner', 'Store owner'],
