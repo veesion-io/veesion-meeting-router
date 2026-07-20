@@ -49,7 +49,7 @@
       locationType: '', locationValues: [],
       storeTypes: ['Convenience store', 'Gas station', 'Liquor store', 'Supermarket', 'Pharmacy', 'Grocery Store (Convenience store)'],
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail', 'Store Owner', 'Store owner', 'Store manager', 'Retail Group Director', 'District / Regional Manager', 'Head of Operations / COO', 'Loss Prevention', 'Security manager', 'Retail Security Director', 'Asset Protection'],
-      cameras: ['10-14 cameras', '15 - 34 cameras'],
+      cameras: ['10-14 cameras', '15 - 34 cameras', '+ 35 cameras'],
       minStores: 1
     },
     {
