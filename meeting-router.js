@@ -16,6 +16,9 @@
  *   retail_store_type   →  store type picklist label
  *   job_role            →  job role picklist label
  *   number_of_cameras   →  camera range picklist label (e.g. "10-14 cameras")
+ *   taille_du_magasin   →  store size as answered, unconverted: sq ft in the
+ *                          US and Canada, m² elsewhere. Either this or the
+ *                          camera band satisfies a route's size gate.
  *   number_of_stores    →  number of stores (integer)
  *   firstname           →  contact first name  (appended to the meeting URL)
  *   lastname            →  contact last name   (appended to the meeting URL)
@@ -50,7 +53,8 @@
       storeTypes: ['Liquor store', 'Convenience store', 'Gas station', 'Grocery Store (Convenience store)', 'Supermarket', 'Pharmacy', 'Electronics store', 'Hardware Store', 'Gardening Store'],
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail', 'Store Owner', 'Store owner', 'Store manager', 'Retail Group Director', 'District / Regional Manager', 'Head of Operations / COO', 'Loss Prevention', 'Asset Protection', 'Security manager', 'Retail Security Director', 'Finance Department'],
       cameras: ['5 - 9 cameras', '10-14 cameras', '15 - 34 cameras', '+ 35 cameras'],
-      minStores: 10
+      minStores: 10,
+      minStoreSize: 1600
     },
     {
       name: 'C-US-1', flow: 'paid-acquisition',
@@ -60,7 +64,8 @@
       storeTypes: ['Convenience store', 'Gas station', 'Liquor store', 'Supermarket', 'Pharmacy', 'Grocery Store (Convenience store)', 'Electronics store', 'Hardware Store', 'Gardening Store'],
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail', 'Store Owner', 'Store owner', 'Store manager', 'Retail Group Director', 'District / Regional Manager', 'Head of Operations / COO', 'Loss Prevention', 'Asset Protection', 'Security manager', 'Retail Security Director', 'Finance Department'],
       cameras: ['10-14 cameras', '15 - 34 cameras', '+ 35 cameras'],
-      minStores: 1
+      minStores: 1,
+      minStoreSize: 1600
     },
     {
       name: 'C-FR-1', flow: 'paid-acquisition',
@@ -70,7 +75,8 @@
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station', 'Convenience store'],
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail', 'Store Owner', 'Store owner', 'Store manager', 'Retail Group Director', 'District / Regional Manager', 'Head of Operations / COO', 'Loss Prevention', 'Asset Protection', 'Security manager', 'Retail Security Director', 'Finance Department'],
       cameras: ['10-14 cameras', '15 - 34 cameras', '+ 35 cameras'],
-      minStores: 1
+      minStores: 1,
+      minStoreSize: 150
     },
     {
       name: 'C-FR-2', flow: 'paid-acquisition',
@@ -80,7 +86,8 @@
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station', 'Convenience store'],
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail', 'Store Owner', 'Store owner', 'Store manager', 'Retail Group Director', 'District / Regional Manager', 'Head of Operations / COO', 'Loss Prevention', 'Asset Protection', 'Security manager', 'Retail Security Director', 'Finance Department'],
       cameras: ['10-14 cameras', '15 - 34 cameras', '+ 35 cameras'],
-      minStores: 1
+      minStores: 1,
+      minStoreSize: 150
     },
     {
       name: 'C-FR-3', flow: 'paid-acquisition',
@@ -90,7 +97,8 @@
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station', 'Convenience store'],
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail', 'Store Owner', 'Store owner', 'Store manager', 'Retail Group Director', 'District / Regional Manager', 'Head of Operations / COO', 'Loss Prevention', 'Asset Protection', 'Security manager', 'Retail Security Director', 'Finance Department'],
       cameras: ['10-14 cameras', '15 - 34 cameras', '+ 35 cameras'],
-      minStores: 1
+      minStores: 1,
+      minStoreSize: 150
     },
     {
       name: 'C-ES-1', flow: 'paid-acquisition',
@@ -100,7 +108,8 @@
       storeTypes: ['Supermarket', 'Pharmacy', 'Convenience store', 'Electronics store', 'Hardware Store', 'Gas station'],
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail', 'Store Owner', 'Store owner', 'Store manager', 'Retail Group Director', 'District / Regional Manager', 'Head of Operations / COO', 'Loss Prevention', 'Asset Protection', 'Security manager', 'Retail Security Director', 'Finance Department'],
       cameras: ['10-14 cameras', '15 - 34 cameras', '+ 35 cameras'],
-      minStores: 1
+      minStores: 1,
+      minStoreSize: 150
     },
     {
       name: 'C-IT-1', flow: 'paid-acquisition',
@@ -110,7 +119,8 @@
       storeTypes: ['Supermarket', 'Pharmacy', 'Hardware Store', 'Convenience store', 'Electronics store', 'Gas station'],
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail', 'Store Owner', 'Store owner', 'Store manager', 'Retail Group Director', 'District / Regional Manager', 'Head of Operations / COO', 'Loss Prevention', 'Asset Protection', 'Security manager', 'Retail Security Director', 'Finance Department'],
       cameras: ['5 - 9 cameras', '10-14 cameras', '15 - 34 cameras', '+ 35 cameras'],
-      minStores: 1
+      minStores: 1,
+      minStoreSize: 150
     },
     {
       name: 'C-BR-1', flow: 'paid-acquisition',
@@ -120,7 +130,8 @@
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station', 'Convenience store', 'Grocery Store (Convenience store)', 'Electronics store', 'Hardware Store', 'Gardening Store'],
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail', 'Store Owner', 'Store owner', 'Store manager', 'Retail Group Director', 'District / Regional Manager', 'Head of Operations / COO', 'Loss Prevention', 'Asset Protection', 'Security manager', 'Retail Security Director', 'Finance Department'],
       cameras: ['15 - 34 cameras', '+ 35 cameras', '10-14 cameras'],
-      minStores: 1
+      minStores: 1,
+      minStoreSize: 150
     },
     {
       name: 'C-UK-1', flow: 'paid-acquisition',
@@ -130,7 +141,8 @@
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station', 'Convenience store'],
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail', 'Store Owner', 'Store owner', 'Store manager', 'Retail Group Director', 'District / Regional Manager', 'Head of Operations / COO', 'Loss Prevention', 'Asset Protection', 'Security manager', 'Retail Security Director', 'Finance Department'],
       cameras: ['10-14 cameras', '15 - 34 cameras', '+ 35 cameras'],
-      minStores: 1
+      minStores: 1,
+      minStoreSize: 1600
     },
     {
       name: 'C-CATCH', flow: 'paid-acquisition',
@@ -140,7 +152,8 @@
       storeTypes: ['Supermarket', 'Pharmacy', 'Gas station'],
       jobRoles: ['Je suis propriétaire d\'un magasin', 'Directeur d\'un magasin indépendant', 'Directeur d\'un Groupe Retail', 'Store Owner', 'Store owner', 'Store manager', 'Retail Group Director', 'District / Regional Manager', 'Head of Operations / COO', 'Loss Prevention', 'Asset Protection', 'Security manager', 'Retail Security Director', 'Finance Department'],
       cameras: ['10-14 cameras', '15 - 34 cameras', '+ 35 cameras'],
-      minStores: 1
+      minStores: 1,
+      minStoreSize: 150
     }
     ];
   
@@ -192,6 +205,15 @@
       });
     }
   
+    // A blank, absent or non-numeric store-size answer is null, never 0 — a 0
+    // would clear no threshold but would read as "answered", and " 1 400 " and
+    // "1,400" are both things a store owner types into a number field.
+    function _toNumber(value) {
+      if (value == null || value === '') return null;
+      var n = parseFloat(String(value).replace(/[\s,\u00a0]/g, ''));
+      return isNaN(n) ? null : n;
+    }
+
     // Countries claimed by other (non-CATCH) routes in the same flow.
     // A CATCH route matches any country not in this list.
     function _claimedCountries(flow) {
@@ -241,10 +263,18 @@
           !_includesLoose(route.jobRoles, p.jobRole))
         return reject('jobRole ' + JSON.stringify(p.jobRole) + ' not in [' + route.jobRoles.join(', ') + ']');
 
-      // Cameras
-      if (route.cameras.length) {
-        if (!p.cameras || !_includesLoose(route.cameras, p.cameras))
-          return reject('cameras ' + JSON.stringify(p.cameras) + ' not in [' + route.cameras.join(', ') + ']');
+      // Size gate — a camera band OR a store size.
+      // Both answer the same question ("is this store big enough to be worth a
+      // meeting"), so either one may satisfy it. The gate rejects only when
+      // neither answer clears its own bar. Threshold is per route because the
+      // unit is: sq ft in the US, m² elsewhere.
+      if (route.cameras.length || route.minStoreSize !== null) {
+        var camerasOk = route.cameras.length > 0 && _includesLoose(route.cameras, p.cameras);
+        var sizeOk = route.minStoreSize !== null && p.storeSize !== null &&
+                     p.storeSize >= route.minStoreSize;
+        if (!camerasOk && !sizeOk)
+          return reject('neither cameras ' + JSON.stringify(p.cameras) + ' in [' + route.cameras.join(', ') +
+                        '] nor storeSize ' + JSON.stringify(p.storeSize) + ' >= ' + route.minStoreSize);
       }
 
       // Min stores
@@ -346,6 +376,7 @@
         storeType: values['retail_store_type'] || null,
         jobRole:   values['job_role']          || null,
         cameras:   values['nombre_de_cameras_dans_le_magasin'] || null,
+        storeSize: _toNumber(values['taille_du_magasin']),
         stores:    parseInt(values['number_of_store_s_'], 10) || 0,
         timezone:  values['hs_timezone']       || _getBrowserTimezone(),
         firstName: values['firstname']         || null,
@@ -360,6 +391,7 @@
       'retail_store_type': 'storeType',
       'job_role':          'jobRole',
       'number_of_cameras': 'cameras',
+      'store_size':        'storeSize',
       'number_of_stores':  'stores',
       'first_name':        'firstName',
       'last_name':         'lastName',
@@ -373,6 +405,7 @@
         if (!key) return;
         var val = answer.text || answer.email || (answer.choice && answer.choice.label) || answer.number || null;
         if (key === 'stores') val = parseInt(val, 10) || 0;
+        if (key === 'storeSize') val = _toNumber(val);
         p[key] = val;
       });
       return p;
