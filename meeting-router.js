@@ -300,6 +300,7 @@
       if (p.firstName) params.push('firstName=' + encodeURIComponent(p.firstName));
       if (p.lastName)  params.push('lastName='  + encodeURIComponent(p.lastName));
       if (p.email)     params.push('email='     + encodeURIComponent(p.email));
+      if (p.phone)     params.push('phone='     + encodeURIComponent(p.phone));
       if (!params.length) return link;
       var sep = link.indexOf('?') === -1 ? '?' : '&';
       return link + sep + params.join('&');
@@ -381,7 +382,8 @@
         timezone:  values['hs_timezone']       || _getBrowserTimezone(),
         firstName: values['firstname']         || null,
         lastName:  values['lastname']          || null,
-        email:     values['email']             || null
+        email:     values['email']             || null,
+        phone:     values['phone']             || null
       };
     }
   
